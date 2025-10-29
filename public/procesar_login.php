@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: /Proyecto1/public/chofer_dashboard.php");
                     break;
                 case "pasajero":
-                    header("Location: /Proyecto1/public/pasajero_dashboard.php");
+                    header("Location: /Proyecto1/public/dashboard_pasajero.php");
                     break;
                 default:
                     $_SESSION['login_error'] = "Tipo de usuario no reconocido.";

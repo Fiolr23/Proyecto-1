@@ -30,7 +30,7 @@ if (isset($_GET['id'])) {
     if ($vehiculoDB) {
         $vehiculo = $vehiculoDB;
     } else {
-        echo "<script>alert('Vehículo no encontrado'); window.location.href='dashboard_chofer.php';</script>";
+        echo "<script>alert('Vehículo no encontrado'); window.location.href='chofer_dashboard.php';</script>";
         exit();
     }
 }
@@ -38,12 +38,12 @@ if (isset($_GET['id'])) {
 // Procesar formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $datos = [
-        'placa' => $_POST['placa'],
-        'color' => $_POST['color'],
-        'marca' => $_POST['marca'],
-        'modelo' => $_POST['modelo'],
-        'anio' => $_POST['anio'],
-        'capacidad_asientos' => $_POST['capacidad_asientos']
+        'placa' => trim($_POST['placa']),
+        'color' => trim($_POST['color']),
+        'marca' => trim($_POST['marca']),
+        'modelo' => trim($_POST['modelo']),
+        'anio' => intval($_POST['anio']),
+        'capacidad_asientos' => intval($_POST['capacidad_asientos'])
     ];
 
     // Manejo de foto
@@ -58,11 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id']) && !empty($_POST['id'])) {
         // Editar
         actualizarVehiculo($conexion, $_POST['id'], $chofer_id, $datos, $nombreFoto);
-        echo "<script>alert('Vehículo actualizado correctamente'); window.location.href='dashboard_chofer.php';</script>";
+        echo "<script>alert('Vehículo actualizado correctamente'); window.location.href='chofer_dashboard.php';</script>";
     } else {
         // Crear
         crearVehiculo($conexion, $chofer_id, $datos, $nombreFoto);
-        echo "<script>alert('Vehículo agregado correctamente'); window.location.href='dashboard_chofer.php';</script>";
+        echo "<script>alert('Vehículo agregado correctamente'); window.location.href='chofer_dashboard.php';</script>";
     }
 }
 
@@ -103,11 +103,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label>Fotografía (opcional):</label>
     <input type="file" name="fotografia" accept="image/*"><br><br>
 
+    <?php if ($editar && $vehiculo['fotografia']): ?>
+        <img src="../uploads/vehiculos/<?= htmlspecialchars($vehiculo['fotografia']) ?>" width="150"><br><br>
+    <?php endif; ?>
+
     <button type="submit"><?= $editar ? "Actualizar" : "Agregar" ?></button>
 </form>
 
 <br>
-<a href="dashboard_chofer.php"><button>Volver al Inicio</button></a>
+<a href="chofer_dashboard.php"><button>Volver al Inicio</button></a>
 
 </body>
 </html>

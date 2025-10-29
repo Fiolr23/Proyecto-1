@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            $mail->setFrom('tucorreo@gmail.com', 'Sistema Rides');
+            $mail->setFrom('lazofiorella28@gmail.com', 'Sistema Rides');
             $mail->addAddress($correo, $nombre);
             $mail->isHTML(true);
             $mail->Subject = 'Activa tu cuenta';
