@@ -52,11 +52,37 @@ input, select {
     border: 1px solid #ccc;
 }
 
-.btn-cancelar { background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 4px; text-decoration: none; }
-.btn-cancelar:hover { background-color: #b02a37; }
 
-.btn-aceptar { background-color: #28a745; color: white; padding: 5px 10px; border-radius: 4px; text-decoration: none; }
-.btn-aceptar:hover { background-color: #1e7e34; }
+.btn-accion, .btn-salir {
+    display: inline-block;
+    background-color: #007bff; /* azul */
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
 
-.btn-rechazar { background-color: #ffc107; color: black; padding: 5px 10px; border-radius: 4px; text-decoration: none; }
-.btn-rechazar:hover { background-color: #d39e00; }
+.btn-accion:hover {
+    background-color: #0056b3;
+}
+
+.btn-accion i {
+    margin-right: 4px;
+}
+
+.btn-salir {
+    background-color: #6c757d;
+}
+
+.btn-salir:hover {
+    background-color: #565e64;
+}
+
+.text-muted { color: #999; }
+
+
+
+
+
+

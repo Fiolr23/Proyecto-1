@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php endif; ?>
 
 <?php if (empty($vehiculos)): ?>
-    <p style="color:red;">⚠️ No tienes vehículos registrados. <a href="vehiculo_form.php">Agrega uno primero</a>.</p>
+    <p style="color:red;">No tienes vehículos registrados. <a href="vehiculo_form.php">Agrega uno primero</a>.</p>
 <?php else: ?>
 
 <form method="post">

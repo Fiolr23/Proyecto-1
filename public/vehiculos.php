@@ -33,7 +33,7 @@ function obtenerVehiculo($conexion, $id, $chofer_id) {
 }
 
 /**
- * ✅ VALIDAR QUE UN VEHÍCULO PERTENECE AL CHOFER (por ID)
+ * VALIDAR QUE UN VEHÍCULO PERTENECE AL CHOFER (por ID)
  */
 function validarPropiedadVehiculo($conexion, $vehiculo_id, $chofer_id) {
     $stmt = $conexion->prepare("SELECT id FROM vehiculos WHERE id=? AND chofer_id=?");
@@ -47,7 +47,7 @@ function validarPropiedadVehiculo($conexion, $vehiculo_id, $chofer_id) {
 }
 
 /**
- * ✅ VALIDAR QUE UN VEHÍCULO PERTENECE AL CHOFER (por PLACA)
+ * VALIDAR QUE UN VEHÍCULO PERTENECE AL CHOFER (por PLACA)
  */
 function validarPropiedadVehiculoPorPlaca($conexion, $placa, $chofer_id) {
     $stmt = $conexion->prepare("SELECT id FROM vehiculos WHERE placa=? AND chofer_id=?");
@@ -71,7 +71,7 @@ function crearVehiculo($conexion, $chofer_id, $datos, $nombreFoto) {
     $stmtCheck->store_result();
     if ($stmtCheck->num_rows > 0) {
         $stmtCheck->close();
-        echo "<script>alert('❌ Ya tienes un vehículo con esa placa'); window.history.back();</script>";
+        echo "<script>alert('Ya tienes un vehículo con esa placa'); window.history.back();</script>";
         exit();
     }
     $stmtCheck->close();
@@ -113,9 +113,9 @@ function obtenerVehiculosPorUsuario($conexion, $usuario_id) {
  * Actualizar vehículo (verificando propiedad)
  */
 function actualizarVehiculo($conexion, $id, $chofer_id, $datos, $nombreFoto = null) {
-    // ✅ VALIDAR QUE EL VEHÍCULO PERTENECE AL CHOFER
+    // VALIDAR QUE EL VEHÍCULO PERTENECE AL CHOFER
     if (!validarPropiedadVehiculo($conexion, $id, $chofer_id)) {
-        echo "<script>alert('❌ Este vehículo no te pertenece'); window.history.back();</script>";
+        echo "<script>alert('Este vehículo no te pertenece'); window.history.back();</script>";
         exit();
     }
 
@@ -126,7 +126,7 @@ function actualizarVehiculo($conexion, $id, $chofer_id, $datos, $nombreFoto = nu
     $stmtCheck->store_result();
     if ($stmtCheck->num_rows > 0) {
         $stmtCheck->close();
-        echo "<script>alert('❌ Ya tienes otro vehículo con esa placa'); window.history.back();</script>";
+        echo "<script>alert('Ya tienes otro vehículo con esa placa'); window.history.back();</script>";
         exit();
     }
     $stmtCheck->close();
@@ -171,7 +171,7 @@ function actualizarVehiculo($conexion, $id, $chofer_id, $datos, $nombreFoto = nu
  * Eliminar vehículo (verificando propiedad)
  */
 function eliminarVehiculo($conexion, $vehiculo_id, $chofer_id) {
-    // ✅ VERIFICAR QUE EL VEHÍCULO PERTENECE AL CHOFER
+    // VERIFICAR QUE EL VEHÍCULO PERTENECE AL CHOFER
     $stmt = $conexion->prepare("SELECT id, fotografia FROM vehiculos WHERE id = ? AND chofer_id = ?");
     $stmt->bind_param("ii", $vehiculo_id, $chofer_id);
     $stmt->execute();

@@ -7,64 +7,94 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
+<body class="registro-page">
 
     <?php if(isset($_GET['mensaje'])): ?>
-        <p style="color: red;"><?= htmlspecialchars($_GET['mensaje']) ?></p>
+        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> <?= htmlspecialchars($_GET['mensaje']) ?></p>
     <?php endif; ?>
 
-    <h2>Registro</h2>
+    <h2><i class="fa-solid fa-user-plus"></i> Registro</h2>
 
-    <form action="procesar_registro.php" method="POST" enctype="multipart/form-data">
+    <form action="procesar_registro.php" method="POST" enctype="multipart/form-data" class="registro-form">
 
-        <label>Nombre:</label>
-        <input type="text" name="nombre" required><br><br>
+        <div class="form-group">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" required>
+        </div>
 
-        <label>Apellido:</label>
-        <input type="text" name="apellido" required><br><br>
+        <div class="form-group">
+            <label>Apellido:</label>
+            <input type="text" name="apellido" required>
+        </div>
 
-        <label>Cédula:</label>
-        <input type="text" name="cedula" required 
-               pattern="[0-9]{9,12}" 
-               title="Solo números (9 a 12 dígitos)"
-               maxlength="12"
-               oninput="this.value = this.value.replace(/[^0-9]/g, '');"><br><br>
+        <div class="form-group">
+            <label>Cédula:</label>
+            <input type="text" name="cedula" required 
+                   pattern="[0-9]{9,12}" 
+                   title="Solo números (9 a 12 dígitos)"
+                   maxlength="12"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+        </div>
 
-        <label>Fecha de nacimiento:</label>
-        <input type="date" name="fecha_nacimiento" required><br><br>
+        <div class="form-group">
+            <label>Fecha de nacimiento:</label>
+            <input type="date" name="fecha_nacimiento" required>
+        </div>
 
-        <label>Correo:</label>
-        <input type="email" name="correo" required><br><br>
+        <div class="form-group">
+            <label>Correo:</label>
+            <input type="email" name="correo" required>
+        </div>
 
-        <label>Teléfono:</label>
-        <input type="text" name="telefono" required 
-               pattern="[0-9]{8}" 
-               title="Debe contener 8 dígitos numéricos"
-               maxlength="8"
-               oninput="this.value = this.value.replace(/[^0-9]/g, '');"><br><br>
+        <div class="form-group">
+            <label>Teléfono:</label>
+            <input type="text" name="telefono" required 
+                   pattern="[0-9]{8}" 
+                   title="Debe contener 8 dígitos numéricos"
+                   maxlength="8"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+        </div>
 
-        <label>Contraseña:</label>
-        <input type="password" name="contrasena" required><br><br>
+        <div class="form-group">
+            <label>Contraseña:</label>
+            <input type="password" name="contrasena" required>
+        </div>
 
-        <label>Repetir contraseña:</label>
-        <input type="password" name="repetir_contrasena" required><br><br>
+        <div class="form-group">
+            <label>Repetir contraseña:</label>
+            <input type="password" name="repetir_contrasena" required>
+        </div>
 
-        <label>Tipo de usuario:</label>
-        <select name="tipo" required>
-            <option value="pasajero">Pasajero</option>
-            <option value="chofer">Chofer</option>
-        </select>
-        <br><br>
+        <div class="form-group">
+            <label>Tipo de usuario:</label>
+            <select name="tipo" required>
+                <option value="pasajero">Pasajero</option>
+                <option value="chofer">Chofer</option>
+            </select>
+        </div>
 
-        <label>Fotografía (opcional):</label>
-        <input type="file" name="fotografia" accept="image/*"><br><br>
+        <div class="form-group">
+            <label>Fotografía (opcional):</label>
+            <input type="file" name="fotografia" accept="image/*">
+        </div>
 
-        <button type="submit">Registrarse</button>
+        <div class="form-actions">
+            <button type="submit" class="btn">
+                <i class="fa-solid fa-user-plus"></i> Registrarse
+            </button>
+
+            <a href="login.php" class="btn btn-salir">
+                <i class="fa-solid fa-arrow-left"></i> Regresar al Login
+            </a>
+        </div>
+
     </form>
-
-    <br>
-    <a href="login.php"><button type="button">Regresar al Login</button></a>
 
 </body>
 </html>
+
+
+

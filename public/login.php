@@ -5,7 +5,7 @@ session_start();
 $mensaje = "";
 if (isset($_SESSION['login_error'])) {
     $mensaje = $_SESSION['login_error'];
-    unset($_SESSION['login_error']); // Limpiar mensaje para no repetirlo
+    unset($_SESSION['login_error']);
 }
 ?>
 
@@ -14,33 +14,41 @@ if (isset($_SESSION['login_error'])) {
 <head>
     <meta charset="UTF-8">
     <title>Login - Transporte</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
-<h2>Inicio de Sesión</h2>
+<form action="procesar_login.php" method="POST" class="login-form">
+    <h2><i class="fa-solid fa-right-to-bracket"></i> Inicio de Sesión</h2>
 
-<?php if ($mensaje != ""): ?>
-    <p style="color:red;"><?= htmlspecialchars($mensaje) ?></p>
-<?php endif; ?>
+    <?php if ($mensaje != ""): ?>
+        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> <?= htmlspecialchars($mensaje) ?></p>
+    <?php endif; ?>
 
-<form action="procesar_login.php" method="POST">
-    <label for="correo">Correo:</label><br>
-    <input type="email" name="correo" required><br><br>
+    <div class="form-group">
+        <label for="correo"><i class="fa-solid fa-envelope"></i> Correo:</label>
+        <input type="email" name="correo" required>
+    </div>
 
-    <label for="contrasena">Contraseña:</label><br>
-    <input type="password" name="contrasena" required><br><br>
+    <div class="form-group">
+        <label for="contrasena"><i class="fa-solid fa-lock"></i> Contraseña:</label>
+        <input type="password" name="contrasena" required>
+    </div>
 
-    <button type="submit">Ingresar</button>
-</form>
+    <button type="submit" class="btn"><i class="fa-solid fa-right-to-bracket"></i> Ingresar</button>
 
-<br>
+    <p class="text-muted">¿No tienes cuenta?</p>
 
-<form action="registro.php">
-    <button type="submit">Crear cuenta</button>
+    <a href="registro.php" class="btn btn-login"><i class="fa-solid fa-user-plus"></i> Crear cuenta</a>
 </form>
 
 </body>
 </html>
+
+
+
+
 
 
 

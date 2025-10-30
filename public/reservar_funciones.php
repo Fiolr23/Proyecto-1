@@ -5,7 +5,7 @@ require_once "../src/conexion.php";
  * Crear una reserva (solo pasajeros)
  */
 function crearReserva($conexion, $ride_id, $pasajero_id) {
-    // 1️⃣ Verificar si el pasajero ya tiene una reserva activa para este ride
+    //Verificar si el pasajero ya tiene una reserva activa para este ride
     $stmt_check = $conexion->prepare(
         "SELECT COUNT(*) as total FROM reservas 
          WHERE id_ride = ? AND id_pasajero = ? AND estado IN ('Pendiente','Aceptada')"
@@ -17,7 +17,7 @@ function crearReserva($conexion, $ride_id, $pasajero_id) {
         return ['exito' => false, 'mensaje' => "Ya tienes una reserva activa para este ride."];
     }
 
-    // 2️⃣ Verificar si hay espacios disponibles
+    //Verificar si hay espacios disponibles
     $stmt_espacios = $conexion->prepare("SELECT cantidad_espacios, chofer_id FROM rides WHERE id = ?");
     $stmt_espacios->bind_param("i", $ride_id);
     $stmt_espacios->execute();
@@ -41,7 +41,7 @@ function crearReserva($conexion, $ride_id, $pasajero_id) {
         return ['exito' => false, 'mensaje' => "No hay espacios disponibles en este ride."];
     }
 
-    // 3️⃣ Insertar la reserva
+    //Insertar la reserva
     $stmt_insert = $conexion->prepare(
         "INSERT INTO reservas (id_ride, id_pasajero, id_chofer, estado) 
          VALUES (?, ?, ?, 'Pendiente')"

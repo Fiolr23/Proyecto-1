@@ -36,14 +36,16 @@ if (!$ride) {
 // Si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pasajero_id = $_SESSION['usuario_id'];
-    $exito = crearReserva($conexion, $ride_id, $pasajero_id);
-    if ($exito) {
-        header("Location: buscar_rides.php?mensaje=Reserva+creada+correctamente");
+    $resultado = crearReserva($conexion, $ride_id, $pasajero_id);
+
+    if ($resultado['exito']) {
+        header("Location: buscar_rides.php?mensaje=" . urlencode($resultado['mensaje']));
         exit();
     } else {
-        $error = "No se pudo crear la reserva. Intente nuevamente.";
+        $error = $resultado['mensaje'];
     }
 }
+
 ?>
 
 <!DOCTYPE html>

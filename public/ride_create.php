@@ -11,7 +11,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'chofer') {
 
 $chofer_id = $_SESSION['usuario_id'];
 
-// ✅ FILTRAR SOLO LOS VEHÍCULOS DEL CHOFER ACTUAL
+//FILTRAR SOLO LOS VEHÍCULOS DEL CHOFER ACTUAL
 $vehiculos = obtenerVehiculosPorUsuario($conexion, $chofer_id);
 
 $mensaje = "";
@@ -19,7 +19,7 @@ $mensaje = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $vehiculo_id = intval($_POST['vehiculo_id'] ?? 0);
     
-    // ✅ VALIDACIÓN DE SEGURIDAD: Verificar que el vehículo pertenece al chofer
+    //VALIDACIÓN DE SEGURIDAD: Verificar que el vehículo pertenece al chofer
     $vehiculo_pertenece = false;
     foreach ($vehiculos as $v) {
         if ($v['id'] == $vehiculo_id) {
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php endif; ?>
 
 <?php if (empty($vehiculos)): ?>
-    <p style="color:red;">⚠️ No tienes vehículos registrados. <a href="vehiculo_form.php">Agrega uno primero</a>.</p>
+    <p style="color:red;">No tienes vehículos registrados. <a href="vehiculo_form.php">Agrega uno primero</a>.</p>
     <p><a href="chofer_dashboard.php">Volver al Dashboard</a></p>
 <?php else: ?>
 

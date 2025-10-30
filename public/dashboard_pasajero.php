@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 require_once "../src/conexion.php";
 
@@ -31,29 +31,40 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Dashboard Pasajero</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
-<h2>Bienvenido, Panel de control Pasajero <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></h2>
+
+<h2>
+    <i class="fa-solid fa-user"></i> 
+    Bienvenido, <?= htmlspecialchars($_SESSION['usuario_nombre']) ?> 
+    <small>(Panel de Pasajero)</small>
+</h2>
 
 <!-- Buscar Rides -->
-<p><a href="buscar_rides.php">🔍 Buscar Rides</a></p>
+<p>
+    <a href="buscar_rides.php" class="btn-accion">
+        <i class="fa-solid fa-magnifying-glass"></i> Buscar Rides
+    </a>
+</p>
 
 <!-- Reservas -->
-<h3>Mis Reservas</h3>
+<h3><i class="fa-solid fa-car-side"></i> Mis Reservas</h3>
 <table class="tabla">
     <thead>
         <tr>
-            <th>Ride</th>
-            <th>Salida</th>
-            <th>Llegada</th>
-            <th>Día</th>
-            <th>Hora</th>
-            <th>Hora Llegada</th>
-            <th>Costo</th>
-            <th>Vehículo</th>
-            <th>Año</th>
-            <th>Estado</th>
-            <th>Acción</th>
+            <th><i class="fa-solid fa-route"></i> Ride</th>
+            <th><i class="fa-solid fa-location-dot"></i> Salida</th>
+            <th><i class="fa-solid fa-flag-checkered"></i> Llegada</th>
+            <th><i class="fa-solid fa-calendar-day"></i> Día</th>
+            <th><i class="fa-solid fa-clock"></i> Hora</th>
+            <th><i class="fa-solid fa-hourglass-end"></i> Hora Llegada</th>
+            <th><i class="fa-solid fa-dollar-sign"></i> Costo</th>
+            <th><i class="fa-solid fa-car"></i> Vehículo</th>
+            <th><i class="fa-solid fa-calendar"></i> Año</th>
+            <th><i class="fa-solid fa-info-circle"></i> Estado</th>
+            <th><i class="fa-solid fa-gears"></i> Acción</th>
         </tr>
     </thead>
     <tbody>
@@ -71,9 +82,13 @@ $result = $stmt->get_result();
             <td><?= htmlspecialchars($row['estado']) ?></td>
             <td>
                 <?php if(in_array($row['estado'], ['Pendiente', 'Aceptada'])): ?>
-                    <a href="reserva_pasajero_accion.php?id=<?= $row['reserva_id'] ?>">Cancelar</a>
+                    <a href="reserva_pasajero_accion.php?id=<?= $row['reserva_id'] ?>&accion=Cancelar" 
+                       onclick="return confirm('¿Seguro que deseas cancelar esta reserva?');" 
+                       class="btn-accion">
+                       <i class="fa-solid fa-ban"></i> Cancelar
+                    </a>
                 <?php else: ?>
-                    -
+                    <span class="text-muted"><i class="fa-solid fa-minus"></i></span>
                 <?php endif; ?>
             </td>
         </tr>
@@ -81,7 +96,14 @@ $result = $stmt->get_result();
     </tbody>
 </table>
 
-<p><a href="cerrar_sesion.php">Cerrar sesión</a></p>
+<p>
+    <a href="cerrar_sesion.php" class="btn-salir">
+        <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+    </a>
+</p>
+
 </body>
 </html>
+
+
 

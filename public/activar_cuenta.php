@@ -3,7 +3,7 @@ require_once "../src/conexion.php";
 
 if (!isset($_GET['token'])) {
     echo "<script>
-            alert('❌ Token no proporcionado.');
+            alert('Token no proporcionado.');
             window.location.href='login.php';
           </script>";
     exit;
@@ -31,12 +31,12 @@ if ($resultado->num_rows === 1) {
     $stmtUpdate->close();
 
     echo "<script>
-            alert('✅ Cuenta activada correctamente. ¡Ahora puedes iniciar sesión!');
+            alert('Cuenta activada correctamente. ¡Ahora puedes iniciar sesión!');
             window.location.href='login.php';
           </script>";
 } else {
     echo "<script>
-            alert('❌ Token inválido o la cuenta ya fue activada.');
+            alert('Token inválido o la cuenta ya fue activada.');
             window.location.href='login.php';
           </script>";
 }

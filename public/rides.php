@@ -12,7 +12,7 @@ $GLOBALS['last_error'] = '';
 function crearRide($conexion, $chofer_id, $datos) {
     $GLOBALS['last_error'] = '';
 
-    // ✅ VALIDAR QUE EL VEHÍCULO PERTENECE AL CHOFER
+    // VALIDAR QUE EL VEHÍCULO PERTENECE AL CHOFER
     if (!validarPropiedadVehiculo($conexion, $datos['vehiculo_id'], $chofer_id)) {
         $GLOBALS['last_error'] = "El vehículo seleccionado no te pertenece";
         return false;
@@ -67,7 +67,7 @@ function crearRide($conexion, $chofer_id, $datos) {
         return false;
     }
 
-    // ✅ Validar que no exista ride que se solape (mismo vehículo, mismo día, MISMO CHOFER)
+    // Validar que no exista ride que se solape (mismo vehículo, mismo día, MISMO CHOFER)
     $stmtCheck = $conexion->prepare("
         SELECT id FROM rides
         WHERE vehiculo_id=? AND dia=? AND chofer_id=?
@@ -124,7 +124,7 @@ function crearRide($conexion, $chofer_id, $datos) {
 
 /* ------------------ obtenerRidesChofer ------------------ */
 function obtenerRidesChofer($conexion, $chofer_id) {
-    // ✅ SOLO OBTENER RIDES DEL CHOFER (con JOIN para validar vehículos)
+    // SOLO OBTENER RIDES DEL CHOFER (con JOIN para validar vehículos)
     $stmt = $conexion->prepare("
         SELECT r.id, r.nombre, r.lugar_salida, r.lugar_llegada, r.dia, 
                r.hora, r.hora_llegada, r.costo, r.cantidad_espacios,
@@ -148,7 +148,7 @@ function obtenerRidesChofer($conexion, $chofer_id) {
 
 /* ------------------ obtenerRidePorId ------------------ */
 function obtenerRidePorId($conexion, $ride_id, $chofer_id) {
-    // ✅ VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
+    //VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
     $stmt = $conexion->prepare("
         SELECT r.* 
         FROM rides r
@@ -171,7 +171,7 @@ function obtenerRidePorId($conexion, $ride_id, $chofer_id) {
 function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
     $GLOBALS['last_error'] = '';
 
-    // ✅ VALIDAR QUE EL RIDE PERTENECE AL CHOFER
+    //VALIDAR QUE EL RIDE PERTENECE AL CHOFER
     $stmtRide = $conexion->prepare("SELECT id FROM rides WHERE id=? AND chofer_id=?");
     if (!$stmtRide) {
         $GLOBALS['last_error'] = $conexion->error;
@@ -187,7 +187,7 @@ function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
     }
     $stmtRide->close();
 
-    // ✅ VALIDAR QUE EL NUEVO VEHÍCULO PERTENECE AL CHOFER
+    //VALIDAR QUE EL NUEVO VEHÍCULO PERTENECE AL CHOFER
     if (!validarPropiedadVehiculo($conexion, $datos['vehiculo_id'], $chofer_id)) {
         $GLOBALS['last_error'] = "El vehículo seleccionado no te pertenece";
         return false;
@@ -214,7 +214,7 @@ function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
         return false;
     }
 
-    // ✅ Validar solapamiento excluyendo el propio ride (MISMO CHOFER)
+    //Validar solapamiento excluyendo el propio ride (MISMO CHOFER)
     $stmtCheck = $conexion->prepare("
         SELECT id FROM rides 
         WHERE vehiculo_id=? AND dia=? AND id != ? AND chofer_id=?
@@ -290,7 +290,7 @@ function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
 
 /* ------------------ eliminarRide ------------------ */
 function eliminarRide($conexion, $ride_id, $chofer_id) {
-    // ✅ VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
+    //VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
     $stmtValidar = $conexion->prepare("
         SELECT r.id 
         FROM rides r

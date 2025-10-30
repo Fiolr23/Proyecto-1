@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validar contraseñas iguales
     if ($contrasena !== $repetirContrasena) {
-        echo "<script>alert('❌ Las contraseñas no coinciden'); window.history.back();</script>";
+        echo "<script>alert('Las contraseñas no coinciden'); window.history.back();</script>";
         exit;
     }
 
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check->store_result();
 
     if ($check->num_rows > 0) {
-        echo "<script>alert('❌ Ya existe un usuario con esa cédula o correo'); window.history.back();</script>";
+        echo "<script>alert('Ya existe un usuario con esa cédula o correo'); window.history.back();</script>";
         $check->close();
         $conexion->close();
         exit;
@@ -93,15 +93,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $mail->send();
 
-            echo "<script>alert('✅ Registro exitoso. Revisa tu correo para activar la cuenta'); 
+            echo "<script>alert('Registro exitoso. Revisa tu correo para activar la cuenta'); 
                   window.location.href='../public/login.php';</script>";
 
         } catch (Exception $e) {
-            echo "<script>alert('❌ Error al enviar el correo: {$mail->ErrorInfo}'); window.history.back();</script>";
+            echo "<script>alert('Error al enviar el correo: {$mail->ErrorInfo}'); window.history.back();</script>";
         }
 
     } else {
-        echo "<script>alert('❌ Error al registrar usuario'); window.history.back();</script>";
+        echo "<script>alert('Error al registrar usuario'); window.history.back();</script>";
     }
 
     $stmt->close();
