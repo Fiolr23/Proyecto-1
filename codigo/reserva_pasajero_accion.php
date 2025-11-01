@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../src/conexion.php";
+require_once "conexion.php";
 require_once "reservar_funciones.php";
 
 //Validar que el usuario sea pasajero

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../src/conexion.php";
+require_once "conexion.php";
 
 // Variables de búsqueda
 $origen = isset($_GET['origen']) ? trim($_GET['origen']) : '';
@@ -57,7 +57,7 @@ if (isset($_SESSION['usuario_tipo'])) {
 <head>
     <meta charset="UTF-8">
     <title>Búsqueda de Rides</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../estilos/style.css">
     <!-- Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>

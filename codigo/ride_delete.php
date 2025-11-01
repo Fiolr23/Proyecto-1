@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../src/conexion.php";
+require_once "conexion.php";
 require_once "rides.php";
 
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'chofer') {

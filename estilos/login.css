@@ -1,0 +1,82 @@
+/* --------------------------- */
+/* ESTILOS LOGIN Y REGISTRO    */
+/* --------------------------- */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenedor del formulario */
+.login-form {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+    width: 360px;
+    padding: 35px;
+    text-align: center;
+}
+
+/* Título */
+.login-form h2 {
+    color: #005f99;
+    margin-bottom: 25px;
+    font-size: 22px;
+}
+
+/* Etiquetas e inputs */
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    color: #005f99;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Botones */
+.btn, .btn-login {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+/* Colores individuales */
+.btn {
+    background-color: #005f99;
+}
+
+.btn:hover {
+    background-color: #0077b6;
+}
+
+.btn-login {
+    background-color: #008CBA;
+}
+
+.btn-login:hover {
+    background-color: #00a3d9;
+}

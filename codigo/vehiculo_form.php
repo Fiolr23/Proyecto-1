@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../src/conexion.php";
+require_once "conexion.php";
 require_once "vehiculos.php";
 
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'chofer') {
@@ -65,53 +65,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('Vehículo agregado correctamente'); window.location.href='chofer_dashboard.php';</script>";
     }
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title><?= $editar ? "Editar Vehículo" : "Agregar Vehículo" ?></title>
+    <link rel="stylesheet" href="../estilos/style.css">
+    <link rel="stylesheet" href="../estilos/formulario.css">
 </head>
 <body>
-<h2><?= $editar ? "Editar Vehículo" : "Agregar Vehículo" ?></h2>
 
-<form action="" method="POST" enctype="multipart/form-data">
-    <?php if ($editar): ?>
-        <input type="hidden" name="id" value="<?= $vehiculo_id ?>">
-    <?php endif; ?>
+<div class="form-container">
+    <h2><?= $editar ? "Editar Vehículo" : "Agregar Vehículo" ?></h2>
 
-    <label>Placa:</label>
-    <input type="text" name="placa" value="<?= htmlspecialchars($vehiculo['placa']) ?>" required><br><br>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <?php if ($editar): ?>
+            <input type="hidden" name="id" value="<?= $vehiculo_id ?>">
+        <?php endif; ?>
 
-    <label>Color:</label>
-    <input type="text" name="color" value="<?= htmlspecialchars($vehiculo['color']) ?>" required><br><br>
+        <div class="form-group">
+            <label>Placa:</label>
+            <input type="text" name="placa" value="<?= htmlspecialchars($vehiculo['placa']) ?>" required>
+        </div>
 
-    <label>Marca:</label>
-    <input type="text" name="marca" value="<?= htmlspecialchars($vehiculo['marca']) ?>" required><br><br>
+        <div class="form-group">
+            <label>Color:</label>
+            <input type="text" name="color" value="<?= htmlspecialchars($vehiculo['color']) ?>" required>
+        </div>
 
-    <label>Modelo:</label>
-    <input type="text" name="modelo" value="<?= htmlspecialchars($vehiculo['modelo']) ?>" required><br><br>
+        <div class="form-group">
+            <label>Marca:</label>
+            <input type="text" name="marca" value="<?= htmlspecialchars($vehiculo['marca']) ?>" required>
+        </div>
 
-    <label>Año:</label>
-    <input type="number" name="anio" value="<?= htmlspecialchars($vehiculo['anio']) ?>" required><br><br>
+        <div class="form-group">
+            <label>Modelo:</label>
+            <input type="text" name="modelo" value="<?= htmlspecialchars($vehiculo['modelo']) ?>" required>
+        </div>
 
-    <label>Capacidad de Asientos:</label>
-    <input type="number" name="capacidad_asientos" value="<?= htmlspecialchars($vehiculo['capacidad_asientos']) ?>" required><br><br>
+        <div class="form-group">
+            <label>Año:</label>
+            <input type="number" name="anio" value="<?= htmlspecialchars($vehiculo['anio']) ?>" required>
+        </div>
 
-    <label>Fotografía (opcional):</label>
-    <input type="file" name="fotografia" accept="image/*"><br><br>
+        <div class="form-group">
+            <label>Capacidad de Asientos:</label>
+            <input type="number" name="capacidad_asientos" value="<?= htmlspecialchars($vehiculo['capacidad_asientos']) ?>" required>
+        </div>
 
-    <?php if ($editar && $vehiculo['fotografia']): ?>
-        <img src="../uploads/vehiculos/<?= htmlspecialchars($vehiculo['fotografia']) ?>" width="150"><br><br>
-    <?php endif; ?>
+        <div class="form-group">
+            <label>Fotografía (opcional):</label>
+            <input type="file" name="fotografia" accept="image/*">
+        </div>
 
-    <button type="submit"><?= $editar ? "Actualizar" : "Agregar" ?></button>
-</form>
+        <?php if ($editar && $vehiculo['fotografia']): ?>
+            <div class="form-group">
+                <img src="../uploads/vehiculos/<?= htmlspecialchars($vehiculo['fotografia']) ?>" width="150" alt="Foto del vehículo">
+            </div>
+        <?php endif; ?>
 
-<br>
-<a href="chofer_dashboard.php"><button>Volver al Inicio</button></a>
+        <div class="form-buttons">
+            <button type="submit" class="btn"><?= $editar ? "Actualizar" : "Agregar" ?></button>
+            <a href="chofer_dashboard.php" class="btn-secondary">Volver al Inicio</a>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>
+
+

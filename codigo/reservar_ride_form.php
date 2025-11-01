@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../src/conexion.php";
+require_once "conexion.php";
 require_once "reservar_funciones.php";
 
 // Verificar que el usuario sea pasajero
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Reservar Ride</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../estilos/style.css">
 </head>
 <body>
 <div class="contenedor">
@@ -75,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn-reservar">Confirmar Reserva</button>
     </form>
 
-    <p><a href="buscar_rides.php">← Volver a Buscar Rides</a></p>
+    <p><a href="buscar_rides.php">Volver a Buscar Rides</a></p>
+    
 </div>
 </body>
 </html>

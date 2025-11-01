@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once "../src/conexion.php";
+require_once "conexion.php";
 
 // Verificar sesión y tipo de usuario
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'pasajero') {
@@ -30,7 +30,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Pasajero</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../estilos/style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>

@@ -1,6 +1,6 @@
 <?php
-require_once "../src/conexion.php";
-require_once "../src/usuario.php";
+require_once "conexion.php";
+require_once "usuario.php";
 
 // PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isHTML(true);
             $mail->Subject = 'Activa tu cuenta';
 
-            $url_activacion = "http://isw.utn.ac.cr/Proyecto1/public/activar_cuenta.php?token=$token";
+            $url_activacion = "http://isw.utn.ac.cr/Proyecto1/codigo/activar_cuenta.php?token=$token";
             $mail->Body = "<h3>Hola $nombre:</h3>
                            <p>Gracias por registrarte. Activa tu cuenta haciendo clic aquí:</p>
                            <a href='$url_activacion'>Activar Cuenta</a>";
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->send();
 
             echo "<script>alert('Registro exitoso. Revisa tu correo para activar la cuenta'); 
-                  window.location.href='../public/login.php';</script>";
+                  window.location.href='../codigo/login.php';</script>";
 
         } catch (Exception $e) {
             echo "<script>alert('Error al enviar el correo: {$mail->ErrorInfo}'); window.history.back();</script>";

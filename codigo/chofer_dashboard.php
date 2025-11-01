@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once "../src/conexion.php";
+require_once "conexion.php";
 require_once "vehiculos.php";
 require_once "rides.php";
 
@@ -38,7 +38,7 @@ $reservas = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Chofer</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../estilos/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>

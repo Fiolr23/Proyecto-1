@@ -1,5 +1,5 @@
 <?php
-require_once "../src/conexion.php";
+require_once "conexion.php";
 
 /**
  * Crear una reserva (solo pasajeros)

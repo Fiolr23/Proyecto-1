@@ -1,5 +1,5 @@
 <?php
-require_once "../src/conexion.php";
+require_once "conexion.php";
 
 /**
  * Obtener todos los vehículos de un chofer específico
