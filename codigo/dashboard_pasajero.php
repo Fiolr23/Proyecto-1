@@ -36,6 +36,35 @@ $result = $stmt->get_result();
 </head>
 <body>
 
+
+<?php
+$idUsuario = $_SESSION['usuario_id'];
+$fotoUsuario = null;
+$sqlFoto = "SELECT fotografia, tipo FROM usuarios WHERE id = ?";
+$stmt = $conexion->prepare($sqlFoto);
+$stmt->bind_param("i", $idUsuario);
+$stmt->execute();
+$stmt->bind_result($foto, $tipo);
+$stmt->fetch();
+$stmt->close();
+
+$carpeta = $tipo === 'chofer' ? '../uploads/choferes/' : '../uploads/pasajeros/';
+$fotoUsuario = !empty($foto) ? $carpeta . $foto : '../uploads/default.png';
+?>
+
+<div style="position: absolute; top: 10px; right: 10px; text-align: center;">
+    <img src="<?= htmlspecialchars($fotoUsuario) ?>" 
+         alt="Foto de perfil" 
+         width="80" 
+         height="80" 
+         style="border-radius: 50%; object-fit: cover; border: 2px solid #555;">
+    <br>
+    <a href="Actualizar_datosUsuarios.php" class="btn-accion" style="margin-top: 5px; display: inline-block;">
+        <i class="fa-solid fa-user-pen"></i> ACTUALIZAR DATOS
+    </a>
+</div>
+
+
 <h2>
     <i class="fa-solid fa-user"></i> 
     Bienvenido, <?= htmlspecialchars($_SESSION['usuario_nombre']) ?> 
@@ -95,6 +124,8 @@ $result = $stmt->get_result();
         <?php endwhile; ?>
     </tbody>
 </table>
+
+
 
 <p>
     <a href="cerrar_sesion.php" class="btn-salir">

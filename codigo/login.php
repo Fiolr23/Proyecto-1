@@ -41,6 +41,11 @@ if (isset($_SESSION['login_error'])) {
     <p class="text-muted">¿No tienes cuenta?</p>
 
     <a href="registro.php" class="btn btn-login"><i class="fa-solid fa-user-plus"></i> Crear cuenta</a>
+
+    <!-- Botón para volver a buscar rides -->
+    <a href="buscar_rides.php" class="btn-volver-rides">
+        <i class="fa-solid fa-car-side"></i> Volver a Buscar Rides
+    </a>
 </form>
 
 </body>

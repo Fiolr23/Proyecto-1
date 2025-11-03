@@ -29,7 +29,7 @@ if (!$estado_info['exito']) {
 
 $estado_actual = $estado_info['estado'];
 
-// 🚦 Lógica de transición de estados
+//Lógica de transición de estados
 if (in_array($estado_actual, ['Pendiente', 'Aceptada'])) {
     // Puede cancelar si está pendiente o aceptada
     $resultado = actualizarEstadoReserva($conexion, $reserva_id, 'Cancelada');

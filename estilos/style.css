@@ -8,6 +8,20 @@ h2 {
     color: #333;
 }
 
+
+.profile-top-right {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    text-align: center;
+    z-index: 10;
+}
+
+.tabla {
+    margin-top: 60px; /* deja espacio suficiente debajo del botón */
+}
+
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -55,12 +69,13 @@ input, select {
 
 .btn-accion, .btn-salir {
     display: inline-block;
-    background-color: #007bff; /* azul */
+    background-color: #007bff;
     color: white;
     padding: 8px 14px;
     border-radius: 6px;
     text-decoration: none;
     transition: 0.3s;
+    margin-top: 5px; /* reduce espacio arriba del botón */
 }
 
 .btn-accion:hover {

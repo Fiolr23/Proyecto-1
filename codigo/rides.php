@@ -187,6 +187,26 @@ function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
     }
     $stmtRide->close();
 
+    //NUEVA VALIDACIÓN: Revisar si hay reservas activas o pendientes
+    $sql = "SELECT COUNT(*) AS total
+            FROM reservas
+            WHERE id_ride = ?
+            AND estado IN ('Pendiente', 'Aceptada')";
+    $stmtCheckReservas = $conexion->prepare($sql);
+    if (!$stmtCheckReservas) {
+        $GLOBALS['last_error'] = $conexion->error;
+        return false;
+    }
+    $stmtCheckReservas->bind_param("i", $ride_id);
+    $stmtCheckReservas->execute();
+    $res = $stmtCheckReservas->get_result()->fetch_assoc();
+    $stmtCheckReservas->close();
+
+    if ($res['total'] > 0) {
+        $GLOBALS['last_error'] = "No se puede actualizar el ride porque tiene reservas activas o pendientes.";
+        return false;
+    }
+
     //VALIDAR QUE EL NUEVO VEHÍCULO PERTENECE AL CHOFER
     if (!validarPropiedadVehiculo($conexion, $datos['vehiculo_id'], $chofer_id)) {
         $GLOBALS['last_error'] = "El vehículo seleccionado no te pertenece";
@@ -289,38 +309,58 @@ function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
 }
 
 /* ------------------ eliminarRide ------------------ */
-function eliminarRide($conexion, $ride_id, $chofer_id) {
-    //VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
+function eliminarRide($conexion, $ride_id, $chofer_id) { 
+    // 1️⃣ VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
     $stmtValidar = $conexion->prepare("
         SELECT r.id 
         FROM rides r
-        JOIN vehiculos v ON r.vehiculo_id = v.id AND v.chofer_id = ?
-        WHERE r.id=? AND r.chofer_id=?
+        JOIN vehiculos v ON r.vehiculo_id = v.id
+        WHERE r.id = ? AND r.chofer_id = ? AND v.chofer_id = ?
     ");
     if (!$stmtValidar) {
         $GLOBALS['last_error'] = $conexion->error;
-        return false;
+        return "Error en validación.";
     }
-    $stmtValidar->bind_param("iii", $chofer_id, $ride_id, $chofer_id);
+
+    $stmtValidar->bind_param("iii", $ride_id, $chofer_id, $chofer_id);
     $stmtValidar->execute();
     $stmtValidar->store_result();
+
     if ($stmtValidar->num_rows === 0) {
         $stmtValidar->close();
-        $GLOBALS['last_error'] = "Este ride no te pertenece o no existe";
-        return false;
+        return "No autorizado o ride inexistente.";
     }
     $stmtValidar->close();
 
-    // Eliminar ride
-    $stmt = $conexion->prepare("DELETE FROM rides WHERE id=? AND chofer_id=?");
-    if (!$stmt) {
-        $GLOBALS['last_error'] = $conexion->error;
-        return false;
-    }
-    $stmt->bind_param("ii", $ride_id, $chofer_id);
-    $res = $stmt->execute();
-    if (!$res) $GLOBALS['last_error'] = $stmt->error;
+    // 2️⃣ VERIFICAR SI HAY RESERVAS ACTIVAS (Pendiente o Aceptada)
+    $sql = "SELECT COUNT(*) AS total 
+            FROM reservas 
+            WHERE id_ride = ? 
+            AND estado IN ('Pendiente', 'Aceptada')";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $ride_id);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_assoc();
     $stmt->close();
-    return $res;
+
+    if ($res['total'] > 0) {
+        return "No se puede eliminar el ride porque tiene reservas activas.";
+    }
+
+    // 3️⃣ ELIMINAR RESERVAS ANTIGUAS (Rechazada o Cancelada)
+    $sql = "DELETE FROM reservas WHERE id_ride = ? AND estado IN ('Rechazada', 'Cancelada')";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $ride_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // 4️⃣ ELIMINAR EL RIDE
+    $stmt = $conexion->prepare("DELETE FROM rides WHERE id = ? AND chofer_id = ?");
+    $stmt->bind_param("ii", $ride_id, $chofer_id);
+    $resultado = $stmt->execute();
+    $stmt->close();
+
+    return $resultado ? true : "Error al eliminar el ride.";
 }
+
 ?>

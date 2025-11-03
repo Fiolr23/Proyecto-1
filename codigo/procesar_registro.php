@@ -88,9 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $url_activacion = "http://isw.utn.ac.cr/Proyecto1/codigo/activar_cuenta.php?token=$token";
             $mail->Body = "<h3>Hola $nombre:</h3>
-                           <p>Gracias por registrarte. Activa tu cuenta haciendo clic aquí:</p>
-                           <a href='$url_activacion'>Activar Cuenta</a>";
-
+                           <p>Gracias por registrarte a nuestro sistema de rides.</p>
+                           <p>Activa tu cuenta haciendo clic aquí:</p>
+                           <a href='$url_activacion'>Activar Cuenta</a>";                        
             $mail->send();
 
             echo "<script>alert('Registro exitoso. Revisa tu correo para activar la cuenta'); 

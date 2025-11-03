@@ -1,28 +1,34 @@
 <?php
-session_start();
 require_once "conexion.php";
 require_once "vehiculos.php";
 
-// Verificar sesión y tipo de usuario
+session_start();
+
+// Verificar sesión
 if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'chofer') {
-    header("Location: login.php?mensaje=Acceso+denegado");
-    exit();
+    header("Location: login.php");
+    exit;
 }
 
-// Verificar que se recibió el id
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: chofer_dashboard.php?mensaje=Vehículo+no+especificado");
-    exit();
+// Verificar ID del vehículo
+if (!isset($_GET['id'])) {
+    echo "<script>alert('ID de vehículo no especificado.'); window.location.href='chofer_dashboard.php';</script>";
+    exit;
 }
 
-$vehiculo_id = intval($_GET['id']);
-$chofer_id = $_SESSION['usuario_id'];
+$idVehiculo = intval($_GET['id']);
+$idUsuario = $_SESSION['usuario_id'];
 
-// Llamar a la función para eliminar el vehículo
-if (eliminarVehiculo($conexion, $vehiculo_id, $chofer_id)) {
-    header("Location: chofer_dashboard.php?mensaje=Vehículo+eliminado+correctamente");
-    exit();
+// Llamar a la función para eliminar
+$resultado = eliminarVehiculo($conexion, $idVehiculo, $idUsuario);
+
+if ($resultado === true) {
+    echo "<script>alert('Vehículo eliminado correctamente.'); window.location.href='chofer_dashboard.php';</script>";
 } else {
-    header("Location: chofer_dashboard.php?mensaje=Error+al+eliminar+vehículo");
-    exit();
+    // Muestra el mensaje devuelto por la función (ya sea error o restricción)
+    echo "<script>alert('$resultado'); window.location.href='chofer_dashboard.php';</script>";
 }
+?>
+
+
+

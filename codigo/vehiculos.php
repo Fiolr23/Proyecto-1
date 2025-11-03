@@ -171,31 +171,68 @@ function actualizarVehiculo($conexion, $id, $chofer_id, $datos, $nombreFoto = nu
  * Eliminar vehículo (verificando propiedad)
  */
 function eliminarVehiculo($conexion, $vehiculo_id, $chofer_id) {
-    // VERIFICAR QUE EL VEHÍCULO PERTENECE AL CHOFER
+    //Verificar que el vehículo pertenece al chofer
     $stmt = $conexion->prepare("SELECT id, fotografia FROM vehiculos WHERE id = ? AND chofer_id = ?");
     $stmt->bind_param("ii", $vehiculo_id, $chofer_id);
     $stmt->execute();
     $resultado = $stmt->get_result();
+
     if ($resultado->num_rows === 0) {
         $stmt->close();
-        return false; // No pertenece al chofer
+        return "No autorizado";
     }
 
     $vehiculo = $resultado->fetch_assoc();
     $stmt->close();
-    
-    // Eliminar fotografía si existe
-    if (!empty($vehiculo['fotografia'])) {
-        $ruta = "../uploads/vehiculos/" . $vehiculo['fotografia'];
-        if (file_exists($ruta)) unlink($ruta);
+
+    //Verificar si hay reservas pendientes o aceptadas asociadas a rides de este vehículo
+    $sql = "SELECT COUNT(*) AS total
+            FROM reservas res
+            INNER JOIN rides r ON res.id_ride = r.id
+            WHERE r.vehiculo_id = ?
+            AND res.estado IN ('Pendiente', 'Aceptada')";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $vehiculo_id);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if ($res['total'] > 0) {
+        return "No se puede eliminar el vehículo porque tiene reservas activas.";
     }
 
-    // Eliminar vehículo de la base de datos
+    //Eliminar reservas pasadas asociadas al vehículo
+    $sql = "DELETE reservas 
+            FROM reservas
+            INNER JOIN rides ON reservas.id_ride = rides.id
+            WHERE rides.vehiculo_id = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $vehiculo_id);
+    $stmt->execute();
+    $stmt->close();
+
+    //Eliminar rides asociados al vehículo
+    $sql = "DELETE FROM rides WHERE vehiculo_id = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $vehiculo_id);
+    $stmt->execute();
+    $stmt->close();
+
+    //Eliminar fotografía si existe
+    if (!empty($vehiculo['fotografia'])) {
+        $ruta = "../uploads/vehiculos/" . $vehiculo['fotografia'];
+        if (file_exists($ruta)) {
+            unlink($ruta);
+        }
+    }
+
+    //Eliminar el vehículo
     $stmt = $conexion->prepare("DELETE FROM vehiculos WHERE id = ? AND chofer_id = ?");
     $stmt->bind_param("ii", $vehiculo_id, $chofer_id);
-    $result = $stmt->execute();
+    $resultado = $stmt->execute();
     $stmt->close();
-    return $result;
+
+    return $resultado ? true : "Error al eliminar el vehículo.";
 }
 
 ?>
