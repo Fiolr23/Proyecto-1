@@ -73,7 +73,7 @@ $fotoUsuario = !empty($foto) ? $carpeta . $foto : '../uploads/default.png';
 
 <!-- Buscar Rides -->
 <p>
-    <a href="buscar_rides.php" class="btn-accion">
+    <a href="index.php" class="btn-accion">
         <i class="fa-solid fa-magnifying-glass"></i> Buscar Rides
     </a>
 </p>

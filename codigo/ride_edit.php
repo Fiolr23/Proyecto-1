@@ -19,14 +19,14 @@ if (!isset($_GET['id'])) {
 
 $ride_id = intval($_GET['id']);
 
-// Obtener el ride (verificando que pertenezca al chofer)
+// Obtener el ride verificando que pertenezca al chofer
 $ride = obtenerRidePorId($conexion, $ride_id, $chofer_id);
 if (!$ride) {
     header("Location: chofer_dashboard.php?mensaje=Ride+no+encontrado");
     exit();
 }
 
-// IMPORTANTE: Obtener SOLO los vehículos del chofer actual
+
 $vehiculos = obtenerVehiculosPorUsuario($conexion, $chofer_id);
 
 $mensaje = "";
@@ -34,7 +34,7 @@ $mensaje = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $vehiculo_id = intval($_POST['vehiculo_id'] ?? 0);
     
-    // VALIDACIÓN CRÍTICA: Verificar que el vehículo pertenece al chofer
+
     $vehiculo_pertenece = false;
     foreach ($vehiculos as $v) {
         if ($v['id'] == $vehiculo_id) {

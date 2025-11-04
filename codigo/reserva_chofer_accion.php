@@ -29,7 +29,7 @@ if (!$estado_info['exito']) {
 
 $estado_actual = $estado_info['estado'];
 
-//Lógica de transición de estados
+
 if ($estado_actual === 'Pendiente' && in_array($accion, ['Aceptar', 'Rechazar'])) {
     $nuevo_estado = ($accion === 'Aceptar') ? 'Aceptada' : 'Rechazada';
     $resultado = actualizarEstadoReserva($conexion, $reserva_id, $nuevo_estado);

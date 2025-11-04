@@ -3,12 +3,12 @@ require_once __DIR__ . "/conexion.php";
 require_once __DIR__ . "/vehiculos.php";
 
 /**
- * Último error de función (si ocurre)
+ * Último error de función
  * @var string
  */
 $GLOBALS['last_error'] = '';
 
-/* ------------------ crearRide ------------------ */
+//crearRide
 function crearRide($conexion, $chofer_id, $datos) {
     $GLOBALS['last_error'] = '';
 
@@ -18,7 +18,7 @@ function crearRide($conexion, $chofer_id, $datos) {
         return false;
     }
 
-    // Obtener la capacidad del vehículo (con validación de propiedad)
+    
     $stmtVehiculo = $conexion->prepare("SELECT capacidad_asientos FROM vehiculos WHERE id = ? AND chofer_id = ?");
     if (!$stmtVehiculo) {
         $GLOBALS['last_error'] = $conexion->error;
@@ -61,13 +61,13 @@ function crearRide($conexion, $chofer_id, $datos) {
         return false;
     }
 
-    // Validar que hora_llegada > hora_salida
+
     if (strtotime($hora_llegada) <= strtotime($hora_salida)) {
         $GLOBALS['last_error'] = "La hora de llegada debe ser posterior a la hora de salida";
         return false;
     }
 
-    // Validar que no exista ride que se solape (mismo vehículo, mismo día, MISMO CHOFER)
+
     $stmtCheck = $conexion->prepare("
         SELECT id FROM rides
         WHERE vehiculo_id=? AND dia=? AND chofer_id=?
@@ -122,7 +122,7 @@ function crearRide($conexion, $chofer_id, $datos) {
     return true;
 }
 
-/* ------------------ obtenerRidesChofer ------------------ */
+// obtenerRidesChofer 
 function obtenerRidesChofer($conexion, $chofer_id) {
     // SOLO OBTENER RIDES DEL CHOFER (con JOIN para validar vehículos)
     $stmt = $conexion->prepare("
@@ -146,7 +146,7 @@ function obtenerRidesChofer($conexion, $chofer_id) {
     return $rides;
 }
 
-/* ------------------ obtenerRidePorId ------------------ */
+/// obtenerRidePorId 
 function obtenerRidePorId($conexion, $ride_id, $chofer_id) {
     //VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
     $stmt = $conexion->prepare("
@@ -167,7 +167,7 @@ function obtenerRidePorId($conexion, $ride_id, $chofer_id) {
     return $ride;
 }
 
-/* ------------------ actualizarRide ------------------ */
+//actualizarRide
 function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
     $GLOBALS['last_error'] = '';
 
@@ -234,7 +234,7 @@ function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
         return false;
     }
 
-    //Validar solapamiento excluyendo el propio ride (MISMO CHOFER)
+
     $stmtCheck = $conexion->prepare("
         SELECT id FROM rides 
         WHERE vehiculo_id=? AND dia=? AND id != ? AND chofer_id=?
@@ -308,9 +308,9 @@ function actualizarRide($conexion, $ride_id, $chofer_id, $datos) {
     return true;
 }
 
-/* ------------------ eliminarRide ------------------ */
+// eliminarRide 
 function eliminarRide($conexion, $ride_id, $chofer_id) { 
-    // 1️⃣ VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
+    // 1️ VALIDAR QUE EL RIDE Y EL VEHÍCULO PERTENECEN AL CHOFER
     $stmtValidar = $conexion->prepare("
         SELECT r.id 
         FROM rides r
@@ -332,7 +332,7 @@ function eliminarRide($conexion, $ride_id, $chofer_id) {
     }
     $stmtValidar->close();
 
-    // 2️⃣ VERIFICAR SI HAY RESERVAS ACTIVAS (Pendiente o Aceptada)
+    // 2️ VERIFICAR SI HAY RESERVAS ACTIVAS (Pendiente o Aceptada)
     $sql = "SELECT COUNT(*) AS total 
             FROM reservas 
             WHERE id_ride = ? 
@@ -347,14 +347,14 @@ function eliminarRide($conexion, $ride_id, $chofer_id) {
         return "No se puede eliminar el ride porque tiene reservas activas.";
     }
 
-    // 3️⃣ ELIMINAR RESERVAS ANTIGUAS (Rechazada o Cancelada)
+    // 3️ ELIMINAR RESERVAS ANTIGUAS (Rechazada o Cancelada)
     $sql = "DELETE FROM reservas WHERE id_ride = ? AND estado IN ('Rechazada', 'Cancelada')";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $ride_id);
     $stmt->execute();
     $stmt->close();
 
-    // 4️⃣ ELIMINAR EL RIDE
+    // 4️ ELIMINAR EL RIDE
     $stmt = $conexion->prepare("DELETE FROM rides WHERE id = ? AND chofer_id = ?");
     $stmt->bind_param("ii", $ride_id, $chofer_id);
     $resultado = $stmt->execute();

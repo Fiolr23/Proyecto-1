@@ -1,9 +1,9 @@
 <?php
 require_once "conexion.php";
 
-/**
- * Crear una reserva (solo pasajeros)
- */
+
+ // Crear una reserva solo pasajeros
+ 
 function crearReserva($conexion, $ride_id, $pasajero_id) {
     //Verificar si el pasajero ya tiene una reserva activa para este ride
     $stmt_check = $conexion->prepare(
@@ -55,9 +55,9 @@ function crearReserva($conexion, $ride_id, $pasajero_id) {
     }
 }
 
-/**
- * Obtener reservas de un pasajero
- */
+
+  // Obtener reservas de un pasajero
+
 function obtenerReservasPasajero($conexion, $pasajero_id) {
     $sql = "SELECT r.id, r.estado, ri.nombre AS ride, ri.lugar_salida, ri.lugar_llegada, ri.dia, ri.hora
             FROM reservas r
@@ -70,9 +70,9 @@ function obtenerReservasPasajero($conexion, $pasajero_id) {
     return $stmt->get_result();
 }
 
-/**
- * Obtener reservas de un chofer
- */
+
+// Obtener reservas de un chofer
+
 function obtenerReservasChofer($conexion, $chofer_id) {
     $sql = "SELECT r.id, r.estado, ri.nombre AS ride, u.nombre AS pasajero, ri.lugar_salida, ri.lugar_llegada, ri.dia, ri.hora
             FROM reservas r
@@ -86,9 +86,9 @@ function obtenerReservasChofer($conexion, $chofer_id) {
     return $stmt->get_result();
 }
 
-/**
- * Actualizar estado de reserva
- */
+
+//Actualizar estado de reserva
+ 
 function actualizarEstadoReserva($conexion, $reserva_id, $nuevo_estado) {
     $stmt = $conexion->prepare("UPDATE reservas SET estado = ? WHERE id = ?");
     $stmt->bind_param("si", $nuevo_estado, $reserva_id);
@@ -99,9 +99,9 @@ function actualizarEstadoReserva($conexion, $reserva_id, $nuevo_estado) {
     }
 }
 
-/**
- * Verificar si el usuario puede actuar sobre la reserva
- */
+
+ // Verificar si el usuario puede actuar sobre la reserva
+
 function puedeModificarReserva($conexion, $reserva_id, $usuario_id, $tipo) {
     if ($tipo === 'chofer') {
         $stmt = $conexion->prepare("SELECT estado FROM reservas WHERE id = ? AND id_chofer = ?");

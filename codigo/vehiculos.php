@@ -1,9 +1,8 @@
 <?php
 require_once "conexion.php";
 
-/**
- * Obtener todos los vehículos de un chofer específico
- */
+//Obtener todos los vehículos de un chofer específico
+
 function obtenerVehiculosChofer($conexion, $chofer_id) {
     $stmt = $conexion->prepare("SELECT * FROM vehiculos WHERE chofer_id=? ORDER BY marca, modelo");
     if (!$stmt) return [];
@@ -18,9 +17,8 @@ function obtenerVehiculosChofer($conexion, $chofer_id) {
     return $vehiculos;
 }
 
-/**
- * Obtener UN vehículo específico SOLO si pertenece al chofer
- */
+// Obtener UN vehículo específico SOLO si pertenece al chofer
+
 function obtenerVehiculo($conexion, $id, $chofer_id) {
     $stmt = $conexion->prepare("SELECT * FROM vehiculos WHERE id=? AND chofer_id=?");
     if (!$stmt) return null;
@@ -32,9 +30,7 @@ function obtenerVehiculo($conexion, $id, $chofer_id) {
     return $vehiculo;
 }
 
-/**
- * VALIDAR QUE UN VEHÍCULO PERTENECE AL CHOFER (por ID)
- */
+//VALIDAR QUE UN VEHÍCULO PERTENECE AL CHOFER (por ID)
 function validarPropiedadVehiculo($conexion, $vehiculo_id, $chofer_id) {
     $stmt = $conexion->prepare("SELECT id FROM vehiculos WHERE id=? AND chofer_id=?");
     if (!$stmt) return false;
@@ -46,9 +42,7 @@ function validarPropiedadVehiculo($conexion, $vehiculo_id, $chofer_id) {
     return $existe;
 }
 
-/**
- * VALIDAR QUE UN VEHÍCULO PERTENECE AL CHOFER (por PLACA)
- */
+
 function validarPropiedadVehiculoPorPlaca($conexion, $placa, $chofer_id) {
     $stmt = $conexion->prepare("SELECT id FROM vehiculos WHERE placa=? AND chofer_id=?");
     if (!$stmt) return false;
@@ -60,9 +54,6 @@ function validarPropiedadVehiculoPorPlaca($conexion, $placa, $chofer_id) {
     return $existe;
 }
 
-/**
- * Crear vehículo (solo para el chofer actual)
- */
 function crearVehiculo($conexion, $chofer_id, $datos, $nombreFoto) {
     // Validar placa única por chofer
     $stmtCheck = $conexion->prepare("SELECT id FROM vehiculos WHERE placa = ? AND chofer_id = ?");
@@ -95,9 +86,8 @@ function crearVehiculo($conexion, $chofer_id, $datos, $nombreFoto) {
     $stmt->close();
 }
 
-/**
- * Obtener vehículos SOLO del usuario especificado
- */
+// Obtener vehículos SOLO del usuario especificado
+
 function obtenerVehiculosPorUsuario($conexion, $usuario_id) {
     $stmt = $conexion->prepare("SELECT * FROM vehiculos WHERE chofer_id=? ORDER BY marca, modelo");
     if (!$stmt) return [];
@@ -109,9 +99,8 @@ function obtenerVehiculosPorUsuario($conexion, $usuario_id) {
     return $vehiculos;
 }
 
-/**
- * Actualizar vehículo (verificando propiedad)
- */
+//Actualizar vehículo (verificando propiedad)
+
 function actualizarVehiculo($conexion, $id, $chofer_id, $datos, $nombreFoto = null) {
     // VALIDAR QUE EL VEHÍCULO PERTENECE AL CHOFER
     if (!validarPropiedadVehiculo($conexion, $id, $chofer_id)) {

@@ -56,11 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($_POST['id']) && !empty($_POST['id'])) {
-        // Editar
+   
         actualizarVehiculo($conexion, $_POST['id'], $chofer_id, $datos, $nombreFoto);
         echo "<script>alert('Vehículo actualizado correctamente'); window.location.href='chofer_dashboard.php';</script>";
     } else {
-        // Crear
+
         crearVehiculo($conexion, $chofer_id, $datos, $nombreFoto);
         echo "<script>alert('Vehículo agregado correctamente'); window.location.href='chofer_dashboard.php';</script>";
     }

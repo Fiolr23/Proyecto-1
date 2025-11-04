@@ -19,13 +19,13 @@ if (!isset($_GET['id'])) {
 $idVehiculo = intval($_GET['id']);
 $idUsuario = $_SESSION['usuario_id'];
 
-// Llamar a la función para eliminar
+
 $resultado = eliminarVehiculo($conexion, $idVehiculo, $idUsuario);
 
 if ($resultado === true) {
     echo "<script>alert('Vehículo eliminado correctamente.'); window.location.href='chofer_dashboard.php';</script>";
 } else {
-    // Muestra el mensaje devuelto por la función (ya sea error o restricción)
+
     echo "<script>alert('$resultado'); window.location.href='chofer_dashboard.php';</script>";
 }
 ?>

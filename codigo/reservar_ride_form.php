@@ -11,7 +11,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['usuario_tipo'] !== 'pasajero')
 
 // Verificar que se haya recibido el id del ride
 if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: buscar_rides.php?mensaje=Ride+no+seleccionado");
+    header("Location: index.php?mensaje=Ride+no+seleccionado");
     exit();
 }
 
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $resultado = crearReserva($conexion, $ride_id, $pasajero_id);
 
     if ($resultado['exito']) {
-        header("Location: buscar_rides.php?mensaje=" . urlencode($resultado['mensaje']));
+        header("Location: index.php?mensaje=" . urlencode($resultado['mensaje']));
         exit();
     } else {
         $error = $resultado['mensaje'];
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn-reservar">Confirmar Reserva</button>
     </form>
 
-    <p><a href="buscar_rides.php">Volver a Buscar Rides</a></p>
+    <p><a href="index.php">Volver a Buscar Rides</a></p>
     
 </div>
 </body>

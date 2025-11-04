@@ -2,7 +2,7 @@
 require_once "conexion.php";
 require_once "usuario.php";
 
-// PHPMailer
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require '../PHPMailer/src/Exception.php';
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $telefono = $_POST['telefono'];
     $contrasena = $_POST['contrasena'];
     $repetirContrasena = $_POST['repetir_contrasena'];
-    $tipo = $_POST['tipo']; // pasajero o chofer
+    $tipo = $_POST['tipo']; 
 
     // Validar contraseñas iguales
     if ($contrasena !== $repetirContrasena) {
@@ -76,8 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'lazofiorella28@gmail.com'; // Cambia por tu correo
-            $mail->Password = 'dbxf ejca elsr xeec'; // Contraseña de aplicación
+            $mail->Username = 'lazofiorella28@gmail.com'; 
+            $mail->Password = 'dbxf ejca elsr xeec'; 
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 

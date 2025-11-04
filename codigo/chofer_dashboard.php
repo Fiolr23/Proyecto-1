@@ -161,7 +161,7 @@ $fotoUsuario = !empty($foto) ? $carpeta . $foto : '../uploads/default.png';
 
 <!-- Reservas -->
 <h3><i class="fa-solid fa-book"></i> Reservas de mis Rides</h3>
-<a href="buscar_rides.php" class="btn-agregar"><i class="fa-solid fa-magnifying-glass"></i> Buscar Rides</a>
+<a href="index.php" class="btn-agregar"><i class="fa-solid fa-magnifying-glass"></i> Buscar Rides</a>
 <table class="tabla">
     <thead>
         <tr>

@@ -11,7 +11,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 30px 15px; /* espacio adaptable arriba y abajo */
+    padding: 30px 15px; 
 }
 
 /* ===== Contenedor del formulario ===== */
@@ -28,7 +28,7 @@ body {
 
 /* ===== Título ===== */
 .form-container h2 {
-    margin-top: 0; /* evita que el título empuje el borde superior */
+    margin-top: 0;
     margin-bottom: 20px;
     color: #354497;
     font-size: 1.5rem;
@@ -111,7 +111,7 @@ input:focus {
 /* ===== Diseño adaptable ===== */
 @media (max-height: 600px) {
     body {
-        align-items: flex-start; /* si hay poco alto, el formulario baja */
+        align-items: flex-start;
     }
     .form-container {
         margin-top: 30px;
